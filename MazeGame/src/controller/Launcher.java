@@ -48,11 +48,16 @@ public class Launcher {
 		game.start();
 		
 		//Initialize connection to server
-		Socket mysocket = getSocket(handler);
-		SocketIO socketIO = new SocketIO (mysocket, handler);
-		handler.setSocketManager(socketIO);
-		socketIO.start();
-		
+		try{
+			Socket mysocket = getSocket(handler);
+			SocketIO socketIO = new SocketIO (mysocket, handler);
+			
+			handler.setSocketManager(socketIO);
+			socketIO.start();
+		}
+		catch(NullPointerException e){
+			System.exit(0);
+		}
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 		    public void run() {
 		    	// what you want to do
